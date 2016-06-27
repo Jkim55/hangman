@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Javascript for Kids - Code Challenge: Hang Man</title>
+  </head>
+  <body>
+    <!-- add a description of game
+    and explain the option to quit -->
+
+    </header>
+    <script>
+      // Pick a random word
+      var listOfWords = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      var selectedWord = listOfWords[Math.floor(Math.random()* listOfWords.length)]
+
+      // Translating the selectedWord into blanks & setting up the counter for remaining letters to guess
+      var answerArray = []
+      for (var i=0; i<selectedWord.length; i++){
+        answerArray[i] = "_"
+      }
+      var remainingLetters = selectedWord.length
+
+      // Greet the player_
+      var name = prompt("What's your name?")
+      var formatted_name = name[0].toUpperCase() + name.slice(1).toLowerCase()
+      alert("Hi, " + formatted_name + "! How about a game of Hangman?")
+
+      // Game time! Code for actual game
+      while (remainingLetters > 0) {
+        alert(answerArray.join(" "))  //show player their progress
+        var guess = prompt("Guess a letter, or click cancel to stop playing") // take input from the player
+        if (guess === null){
+          alert("OK-Let's play next time!")
+          break;
+        }
+        else if (guess.length !== 1) {
+          alert("Please guess only one letter at a time!")
+        }
+        else {
+          for (var j=0; j<selectedWord.length; j++){
+            if (selectedWord[j] === guess){
+              answerArray[j] = guess;
+              remainingLetters--;  // When remainingLetters > 0, the game is finished.
+            }
+          }
+        }
+        // exit game
+      }
+      // alert(answerArray.join(""))
+      if (remainingLetters === 0){
+        alert("Good game! The answer was " + selectedWord[0].toUpperCase() + selectedWord.slice(1).toLowerCase() + ".")
+      }
+      else {
+        alert("The correct answer was " + selectedWord[0].toUpperCase() + selectedWord.slice(1).toLowerCase() + ". Better luck next time! :D");
+      }
+      // alerts re status of the game after the game is over
+    </script>
+  </body>
+</html>
+
+
+<!--
+1. Pick a random word
+2. Take a player's guess
+3. Quit the game if the player wants to
+4. Check that the players guess is a valid letter
+5. Keep track of the letters the player has guessed
+6. Finish when the player has guessed the word
+
+* Steps 2-5 will repeat until the game is finished
+-->
