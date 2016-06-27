@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Javascript for Kids - Code Challenge: Hang Man</title>
+    <title>Code Challenge: A Game of Hangman</title>
   </head>
   <body>
     <!-- add a description of game
@@ -10,40 +10,68 @@
 
     </header>
     <script>
+
+      // FUNCTION: add the capitalizeFirstLetter function to String.prototype
+      String.prototype.capitalizeFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
+      }
+
       // Get the name of a player, format that name, and greet the player
       var get_name = function(){
         var name = prompt("What's your name?")
+        return name.capitalizeFirstLetter()
       }
 
-      var format_name = function(name){
-        return name[0].toUpperCase() + name.slice(1).toLowerCase()
+      var greetPlayer = function(playerName){
+        alert("Hi, " + playerName + "! How about a game of Hangman?")
       }
 
-      var greetPlayer = function(name){
-        alert("Hi, " + name + "! How about a game of Hangman?")
+      // Array of words
+      var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
+      var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+
+      var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
+
+      // Pick a random Array
+      var pickWordList = function(listArray){
+        return listArray[Math.floor(Math.random()* listArray.length)]
       }
 
       // Pick a random word
       var pickWord = function (wordList){
         return wordList[Math.floor(Math.random()* wordList.length)]
       }
-      // Array of words
-      var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
-      var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
+
+      // FUNCTION: inform player that word has been chosen and what the category is
+      // var findCategory = function(listArray, selectedList){
+      //   for (var i=0;i>listArray.length; i++){
+      //     if (listArray[i] == selectedList){
+      //       break;
+      //     }
+      //   }
+      //   return listArray[i]
+      // }
+      //
+      // var announceWordSelected = function(category, word){
+      //   alert("A random word has been selected from the category " + category + " and it consists of " + word.length + " letters")
+      // }
 
       // Translate the selectedWord into blanks
-      var setupAnswerArray = function(selectedWord){
+      var setupAnswerArray = function(word){
         var answerArray = []
-        for (var i=0; i<selectedWord.length; i++){
+        for (var i=0; i<word.length; i++){
           answerArray[i] = "_"
         }
         return answerArray
       }
 
+// STOPPED HERE!!!
+
       // The set up for a counter to show words to guess
       var remainingLettersCounter = function(selectedWord)  //counter re # of words to be guessed
         return selectedWord.length
-      } // function to replace: var remainingLettersCounter = selectedWord.length
+      }
 
       var showPlayerProgress = function(guessedAnswerArray){
         alert(guessedAnswerArray.join(" "))  //show player their progress by printing out current state of answerArray
@@ -69,37 +97,50 @@
         }
       }
 
-      // FUNCTION: Update
-      var updateGameState = function(){
-        if (selectedWord[j] === guess){
-          answerArray[j] = guess;
-          remainingLettersCounter--;  // When remainingLettersCounter > 0, the game is finished
-        } else {
-          alert("Sorry, there's no " + guess + "in the word.")
-        }
-      }
+      //**** BOOKMARK: PROGRAM CODE **** //
+      greetPlayer(get_name())
+      var selectedList = pickWordList(defaultListArray)
+      var selectedWord = pickWord(selectedList)
+      var answerArray = setupAnswerArray(selectedWord)
 
-      // FUNCTION: add the capitalizeFirstLetter function to String.prototype
-        String.prototype.capitalizeFirstLetter = function() {
-          return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
-      }
 
-      // FUNCTION: alerts re status of the game after the game is over
-      var quitGameAndShowAnswer = function(selectedWord){
-        alert("The correct answer was " + selectedWord.capitalizeFirstLetter() + ". Better luck next time! :D");
-      }
+      /* The findCategory & announceWordSelected FUNCTIONS do not work!!!
+      Possibly requires changing how the array of words & defaultListArray is structured to a key:value pair */
+      // var nameOfSelectedList = findCategory(defaultListArray, selectedList)
+      // announceWordSelected(nameOfSelectedList, selectedWord)
 
-      var showAnswerAndCongratulatePlayer = function(selectedWord){
-        alert("Good game! The answer was " + selectedWord.capitalizeFirstLetter() + ".")
-      }
+      console.log(selectedList, selectedWord, answerArray)
 
-      var endOfGameMessage = function(selectedWord){
-        if (remainingLettersCounter === 0){
-          showAnswerAndCongratulatePlayer(selectedWord)
-        } else {
-          quitGameAndShowAnswer(selectedWord)
-        }
-      }
+      //****                                **** //
+      // // FUNCTION: Update
+      // var updateGameState = function(){
+      //   if (selectedWord[j] === guess){
+      //     answerArray[j] = guess;
+      //     remainingLettersCounter--;  // When remainingLettersCounter > 0, the game is finished
+      //   } else {
+      //     alert("Sorry, there's no " + guess + "in the word.")
+      //   }
+      // }
+      //
+      //
+      // // FUNCTION: alerts re status of the game after the game is over
+      // var quitGameAndShowAnswer = function(selectedWord){
+      //   alert("The correct answer was " + selectedWord.capitalizeFirstLetter() + ". Better luck next time! :D");
+      // }
+      //
+      // var showAnswerAndCongratulatePlayer = function(selectedWord){
+      //   alert("Good game! The answer was " + selectedWord.capitalizeFirstLetter() + ".")
+      // }
+      //
+      // var endOfGameMessage = function(selectedWord){
+      //   if (remainingLettersCounter === 0){
+      //     showAnswerAndCongratulatePlayer(selectedWord)
+      //   } else {
+      //     quitGameAndShowAnswer(selectedWord)
+      //   }
+      // }
+
+
     </script>
   </body>
 </html>
