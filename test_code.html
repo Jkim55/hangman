@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Code Challenge: A Game of Hangman</title>
+  </head>
+  <body>
+    <!-- add a description of game
+    and explain the option to quit -->
+
+    </header>
+    <script>
+
+    var initialLetterCounter = function(word){
+      return word.length
+    }
+    var selectedWord = "milk"
+    var remainingLetters = initialLetterCounter(selectedWord)
+    var answerArray = ["_", "_", "_", "_"]
+
+    // FUNCTION: alerts re status of the game after the game is over
+    var quitGameAndShowAnswer = function(word){
+      alert("The correct answer was " + word + ". Better luck next time! :D");
+    }
+
+    var showAnswerAndCongratulatePlayer = function(word){
+      alert("Good game! The answer was " + word + ".")
+    }
+
+    var endOfGameMessage = function(word, counter){
+      if (counter === 0){
+        showAnswerAndCongratulatePlayer(word)
+      } else {
+        quitGameAndShowAnswer(word)
+      }
+    }
+
+    while (remainingLetters > 0) {
+      alert(answerArray.join(" "))  //show player their progress
+      var guess = prompt("Guess a letter, or click cancel to stop playing") // take input from the player
+      if (guess === null){
+        alert("OK-Let's play next time!")
+        break;
+      }
+      else if (guess.length !== 1){
+        alert("Please guess only one letter at a time!")
+      }
+      else {
+        for (var j=0; j<selectedWord.length; j++){
+          if (selectedWord[j] === guess){
+            answerArray[j] = guess;
+            remainingLetters--;  // When remainingLetters > 0, the game is finished.
+          }
+        }
+      }
+    }
+
+    endOfGameMessage(selectedWord, remainingLetters)  // *** outside of while loop
+
+    console.log (answerArray, remainingLetters, selectedWord)
+    </script>
+  </body>
+</html>

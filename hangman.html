@@ -5,21 +5,16 @@
     <title>Code Challenge: A Game of Hangman</title>
   </head>
   <body>
-    <!-- add a description of game
-    and explain the option to quit -->
-
-    </header>
     <script>
-
-      // FUNCTION: add the capitalizeFirstLetter function to String.prototype
-      String.prototype.capitalizeFirstLetter = function() {
+      // FUNCTION: add the formatStringNicely function to String.prototype
+      String.prototype.formatStringNicely = function() {
         return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
       }
 
       // Get the name of a player, format that name, and greet the player
-      var get_name = function(){
+      var getName = function(){
         var name = prompt("What's your name?")
-        return name.capitalizeFirstLetter()
+        return name.formatStringNicely()
       }
 
       var greetPlayer = function(playerName){
@@ -27,11 +22,14 @@
       }
 
       // Array of words
-      var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
-      var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
-      var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+      // var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      // var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
+      // var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
 
-      var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
+      // var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
+
+      var drinks = ["tea", "water", "oj", "milk"]
+      var defaultListArray = [drinks]
 
       // Pick a random Array
       var pickWordList = function(listArray){
@@ -58,87 +56,92 @@
       // }
 
       // Translate the selectedWord into blanks
-      var setupAnswerArray = function(word){
+      var setupAnswerArray = function(selectedWord){
         var answerArray = []
-        for (var i=0; i<word.length; i++){
+        for (var i=0; i<selectedWord.length; i++){
           answerArray[i] = "_"
         }
         return answerArray
       }
 
-// STOPPED HERE!!!
-
       // The set up for a counter to show words to guess
-      var remainingLettersCounter = function(selectedWord)  //counter re # of words to be guessed
+      var initialLetterCounter = function(selectedWord){ //counter re # of words to be guessed
         return selectedWord.length
       }
 
-      var showPlayerProgress = function(guessedAnswerArray){
-        alert(guessedAnswerArray.join(" "))  //show player their progress by printing out current state of answerArray
+      var showPlayerProgress = function(evolvingAnswerArray){
+        return evolvingAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
       // Game time! Code for actual game
-      var getGuess = function(){
-        while (remainingLettersCounter > 0) {
+      var getGuess = function(counter, word, progress){
+        while (counter > 0){
+          alert(progress)
           var guess = prompt("Guess a letter, or click cancel to stop playing") // take input from the player
           if (guess === null){
             alert("OK-Let's play next time!")
             break;
           }
-          else if (guess.length !== 1) {
+          else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
           }
           else {
             for (var j=0; j<selectedWord.length; j++){
-
+              if (word[j] === guess){
+                answerArray[j] = guess;
+                counter--;  // When remainingLetters > 0, the game is finished
+                // initialLetterCounter = evolvingLetterCounter(letterCounter);  // When letterCounter < 0, the game is finished
+              }
+              else {
+                alert("Sorry, there's no \'" + guess + "\' in the word.")
+                break;
               }
             }
           } // exit game
         }
+        endOfGameMessage(word, counter)
       }
 
-      //**** BOOKMARK: PROGRAM CODE **** //
-      greetPlayer(get_name())
+      // FUNCTION: alerts re status of the game after the game is over
+      var quitGameAndShowAnswer = function(selectedWord){
+        alert("The correct answer was " + selectedWord.formatStringNicely() + ". Better luck next time! :D");
+      }
+
+      var showAnswerAndCongratulatePlayer = function(selectedWord){
+        alert("Good game! The answer was " + selectedWord.formatStringNicely() + ".")
+      }
+
+      var endOfGameMessage = function(selectedWord, remainingLettersCounter){
+        if (remainingLettersCounter === 0){
+          showAnswerAndCongratulatePlayer(selectedWord)
+        } else {
+          quitGameAndShowAnswer(selectedWord)
+        }
+      }
+
+      //**** BOOKMARK START: PROGRAM CODE **** //
+      greetPlayer(getName())
       var selectedList = pickWordList(defaultListArray)
       var selectedWord = pickWord(selectedList)
       var answerArray = setupAnswerArray(selectedWord)
-
+      var letterCounter = initialLetterCounter(selectedWord)
+      var playerProgress = showPlayerProgress(answerArray)
+      getGuess(letterCounter, selectedWord, playerProgress)
 
       /* The findCategory & announceWordSelected FUNCTIONS do not work!!!
       Possibly requires changing how the array of words & defaultListArray is structured to a key:value pair */
       // var nameOfSelectedList = findCategory(defaultListArray, selectedList)
       // announceWordSelected(nameOfSelectedList, selectedWord)
 
-      console.log(selectedList, selectedWord, answerArray)
+      console.log(selectedList, selectedWord, answerArray, letterCounter)
+      //**** BOOKMARK END:                **** //
 
-      //****                                **** //
-      // // FUNCTION: Update
-      // var updateGameState = function(){
-      //   if (selectedWord[j] === guess){
-      //     answerArray[j] = guess;
-      //     remainingLettersCounter--;  // When remainingLettersCounter > 0, the game is finished
-      //   } else {
-      //     alert("Sorry, there's no " + guess + "in the word.")
-      //   }
-      // }
-      //
-      //
-      // // FUNCTION: alerts re status of the game after the game is over
-      // var quitGameAndShowAnswer = function(selectedWord){
-      //   alert("The correct answer was " + selectedWord.capitalizeFirstLetter() + ". Better luck next time! :D");
-      // }
-      //
-      // var showAnswerAndCongratulatePlayer = function(selectedWord){
-      //   alert("Good game! The answer was " + selectedWord.capitalizeFirstLetter() + ".")
-      // }
-      //
-      // var endOfGameMessage = function(selectedWord){
-      //   if (remainingLettersCounter === 0){
-      //     showAnswerAndCongratulatePlayer(selectedWord)
-      //   } else {
-      //     quitGameAndShowAnswer(selectedWord)
-      //   }
-      // }
+
+      // FUNCTION: Update the answerArray & decrement the counter
+      var updateGameState = function(){
+      }
+
+
 
 
     </script>
@@ -148,7 +151,7 @@
 <!-- FUNCTIONS TO WRITE
 pickWord - done
 setupAnswerArray - done
-showPlayerProgress - done
+showPlayerProgress -
 getGuess - done
 updateGameState
 showAnswerAndCongratulatePlayer - done

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Code Challenge: A Game of Hangman</title>
+  </head>
+  <body>
+    <script>
+      // FUNCTION: add the formatStringNicely function to String.prototype
+      String.prototype.formatStringNicely = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
+      }
+      // Setting up pickWord
+      var drinks = ["tea", "water", "oj", "milk"]
+      var defaultListArray = [drinks]
+      var pickWordList = function(listArray){
+        return listArray[Math.floor(Math.random()* listArray.length)]
+      }
+      var pickWord = function (wordList){
+        return wordList[Math.floor(Math.random()* wordList.length)]
+      }
+
+      // Translate the selectedWord into blanks
+      var setupAnswerArray = function(pickedWord){
+        var answerArr = []
+        for (var i=0; i<pickedWord.length; i++){
+          answerArr[i] = "_"
+        }
+        return answerArr
+      }
+
+      // Setting up a counter to show remaining words
+      var remainingLetters = function(selectedWord){ //counter re # of words to be guessed
+        return selectedWord.length
+      }
+
+      // Show current state of answerArray
+      var showPlayerProgress = function(currentAnswerArray){
+        return currentAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
+      }
+
+      //**********************************************************************************************//
+      var matchLetter = function(werd, arr, count, guesss){
+        for (var j=0; j<werd.length; j++){
+          if (werd[j] === guesss.toString()){
+            arr[j] = guesss;
+            count--;
+          }
+          else {
+            alert("The letter " + guesss + " doesn't exist.")
+          }
+        }
+      }
+
+      // Game time! Code for actual game
+      var getGuess = function(word, answerArray, counter){
+        while (counter > 0) {
+          alert(showPlayerProgress(answerArray))
+          var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+          if (guess === 'quit'){
+            alert("OK-Let's play next time!")
+            break;
+          }
+          else if (guess.length !== 1){
+            alert("Please guess only one letter at a time!")
+          }
+          else {
+              matchLetter(word, answerArray, counter, guess)
+          }
+        }
+      }
+
+
+      //**** START: PROGRAM CODE **** //
+      var selectedList = pickWordList(defaultListArray)
+      console.log("Value of selectedList:" + selectedList)
+      var selectedWord = pickWord(selectedList)
+      console.log("Value of selectedWord:" + selectedWord)
+      var answerArray = setupAnswerArray(selectedWord)
+      console.log("Value of answerArray:" + answerArray)
+      var letterCounter = remainingLetters(selectedWord)
+      console.log("Value of letterCounter:" + letterCounter)
+
+      getGuess(selectedWord, answerArray, letterCounter)
+      //issue 1: not updating counter
+      //issue 2: won't allow else statetment
+
+      console.log("Value of answerArray:" + answerArray)
+      console.log("Value of letterCounter:" + letterCounter)
+      console.log("Value of PlayerProgress:" + showPlayerProgress(answerArray))
+
+    </script>
+  </body>
+</html>
