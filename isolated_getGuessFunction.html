@@ -40,15 +40,15 @@
       }
 
       //*******************************************************************************************//
-      var matchLetter = function(werd, arr, count, guesss){
-        for (var j=0; j<werd.length; j++){
-          if (werd[j] === guesss.toString()){
-            arr[j] = guesss;
-            count--;
+      var matchLetter = function(word, arr, counter, guess){
+        for (var j=0; j<word.length; j++){
+          if (word[j] === guess.toString()){
+            arr[j] = guess;
+            counter--;
             break;
           }
           else {
-            alert("The letter " + guesss + " doesn't exist.")
+            alert("The letter " + guess + " doesn't exist.")
           }
         }
       }
