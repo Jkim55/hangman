@@ -24,7 +24,9 @@
       var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
       var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
       var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+
       var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
+
 
       var pickWordList = function(listArray){
         return listArray[Math.floor(Math.random()* listArray.length)]
@@ -47,35 +49,37 @@
       }*/
 
       // Translate the selectedWord into blanks
-      var setupAnswerArray = function(selectedWord){
-        var answerArray = []
+      var setupAnswerArray = function(){
+        var answerArr = []
         for (var i=0; i<selectedWord.length; i++){
-          answerArray[i] = "_"
+          answerArr[i] = "_"
         }
-        return answerArray
+        return answerArr
       }
 
       // Setting up a counter to show remaining letters within word
-      var remainingLetters = function(selectedWord){ //counter re # of words to be guessed
+      var remainingLetters = function(){ //counter re # of words to be guessed
         return selectedWord.length
       }
 
       // Show current state of answerArray
-      var showPlayerProgress = function(currentAnswerArray){
-        return currentAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
+      var showPlayerProgress = function(){
+        return answerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
-      //*******************************************************************************************//
-      var matchLetter = function(word, arr, counter, guess){
-        for (var j=0; j<word.length; j++){
-          if (word[j] === guess.toString()){
-            arr[j] = guess;
-            counter--;
+      //FUNCTION: iterates thru each letter of the selectedWord to see if guessed letter === selectedWord[i]
+      var matchLetter = function(guess){
+        for (var j=0; j<selectedWord.length; j++){
+          var notFound = true;
+          if (selectedWord[j] === guess){
+            notFound = false;
+            answerArray[j] = guess;
+            letterCounter--;     // this does not work (why???)
             break;
           }
-          else {
-            alert("The letter \'" + guess + "\' doesn't exist.")
-          }
+        }
+        if (notFound) {
+          alert("The letter \'" + guess + "\' doesn't exist.")
         }
       }
 
@@ -98,46 +102,38 @@
       }
 
       // Game time! Code for actual game
-      var getGuess = function(word, answerArray, counter){
-        while (counter > 0) {
+      var getGuess = function(){
+        while (letterCounter > 0) {
           alert(showPlayerProgress(answerArray))
-          var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+          var guess = prompt("Guess a letter or type 'quit' to stop playing")
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
+          }
+          else if (guess === 'cheat'){
+            answerArray = selectedWord.split("")
+            letterCounter = 0
           }
           else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
           }
           else {
-              matchLetter(word, answerArray, counter, guess)
+            matchLetter(guess)
           }
         }
-        endOfGameMessage(word, counter)
       }
 
-
-      //**** START: CODE TO RUN GAME **** //
+      //**** START: PROGRAM CODE **** //
       greetPlayer(getName())
       var selectedList = pickWordList(defaultListArray)
-      console.log("Value of selectedList:" + selectedList)
-
       var selectedWord = pickWord(selectedList)
-      console.log("Value of selectedWord:" + selectedWord)
-
       var answerArray = setupAnswerArray(selectedWord)
-      console.log("Value of answerArray:" + answerArray)
-      var letterCounter = remainingLetters(selectedWord)
-      console.log("Value of letterCounter:" + letterCounter)
+      var letterCounter = remainingLetters()
+      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
 
-      var playerProgress = showPlayerProgress(answerArray)
-
-      getGuess(selectedWord, answerArray, letterCounter)
-
-      // var nameOfSelectedList = findCategory(defaultListArray, selectedList)
-      // announceWordSelected(nameOfSelectedList, selectedWord)
-      // /* The findCategory & announceWordSelected FUNCTIONS do not work!!!
-      // Possibly requires changing how the array of words & defaultListArray is structured to a key:value pair */
+      getGuess()
+      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
+      //**** END: PROGRAM CODE   **** //
 
     </script>
   </body>

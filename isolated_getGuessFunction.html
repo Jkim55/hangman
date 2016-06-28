@@ -40,12 +40,12 @@
       }
 
       //*******************************************************************************************//
-      var matchLetter = function(word, arr, guess){
-        for (var j=0; j<word.length; j++){
+      var matchLetter = function(guess){
+        for (var j=0; j<selectedWord.length; j++){
           var notFound = true;
-          if (word[j] === guess){
+          if (selectedWord[j] === guess){
             notFound = false;
-            arr[j] = guess;
+            answerArray[j] = guess;
             letterCounter--;     // this does not work (why???)
             break;
           }
@@ -56,24 +56,24 @@
       }
 
       // Game time! Code for actual game
-      var getGuess = function(word, answerArray){
+      var getGuess = function(){
         while (letterCounter > 0) {
           alert(showPlayerProgress(answerArray))
-          var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+          var guess = prompt("Guess a letter or type 'quit' to stop playing")
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
           }
           else if (guess === 'cheat'){
-            // answerArray = ["m", "i", "l", "k"]
+            answerArray = selectedWord.split("")
             letterCounter = 0
-            // console.log(answerArray)
+            console.log(answerArray)
           }
           else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
           }
           else {
-            matchLetter(word, answerArray, guess)
+            matchLetter(guess)
           }
         }
       }
@@ -81,19 +81,15 @@
 
       //**** START: PROGRAM CODE **** //
       var selectedList = pickWordList(defaultListArray)
-      console.log("Initial value of selectedList:" + selectedList)
       var selectedWord = pickWord(selectedList)
-      console.log("Initial value of selectedWord:" + selectedWord)
       var answerArray = setupAnswerArray(selectedWord)
-      console.log("Initial value of answerArray:" + answerArray)
       var letterCounter = remainingLetters(selectedWord)
-      console.log("Initial value of letterCounter:" + letterCounter)
+      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
 
-      getGuess(selectedWord, answerArray, letterCounter)
+      getGuess()
+      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
+      //**** END: PROGRAM CODE   **** //
 
-      console.log("answerArray after getGuess():" + answerArray)
-      console.log("letterCounter after getGuess():" + letterCounter)
-      console.log("PlayerProgress after getGuess():" + showPlayerProgress(answerArray))
 
     </script>
   </body>
