@@ -16,44 +16,35 @@
         var name = prompt("What's your name?")
         return name.formatStringNicely()
       }
-
       var greetPlayer = function(playerName){
         alert("Hi, " + playerName + "! How about a game of Hangman?")
       }
 
-      // Array of words
-      // var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
-      // var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
-      // var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+      // Pick a word randomly from an array chosen at random
+      var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
+      var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+      var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
 
-      // var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
-
-      var drinks = ["tea", "water", "oj", "milk"]
-      var defaultListArray = [drinks]
-
-      // Pick a random Array
       var pickWordList = function(listArray){
         return listArray[Math.floor(Math.random()* listArray.length)]
       }
-
-      // Pick a random word
       var pickWord = function (wordList){
         return wordList[Math.floor(Math.random()* wordList.length)]
       }
 
-      // FUNCTION: inform player that word has been chosen and what the category is
-      // var findCategory = function(listArray, selectedList){
-      //   for (var i=0;i>listArray.length; i++){
-      //     if (listArray[i] == selectedList){
-      //       break;
-      //     }
-      //   }
-      //   return listArray[i]
-      // }
-      //
-      // var announceWordSelected = function(category, word){
-      //   alert("A random word has been selected from the category " + category + " and it consists of " + word.length + " letters")
-      // }
+      /* FUNCTION: inform player that word has been chosen and what the category is
+      var findCategory = function(listArray, selectedList){
+        for (var i=0;i>listArray.length; i++){
+          if (listArray[i] == selectedList){
+            break;
+          }
+        }
+        return listArray[i]
+      }
+      var announceWordSelected = function(category, word){
+        alert("A random word has been selected from the category " + category + " and it consists of " + word.length + " letters")
+      }*/
 
       // Translate the selectedWord into blanks
       var setupAnswerArray = function(selectedWord){
@@ -64,53 +55,37 @@
         return answerArray
       }
 
-      // The set up for a counter to show words to guess
-      var initialLetterCounter = function(selectedWord){ //counter re # of words to be guessed
+      // Setting up a counter to show remaining letters within word
+      var remainingLetters = function(selectedWord){ //counter re # of words to be guessed
         return selectedWord.length
       }
 
-      var showPlayerProgress = function(evolvingAnswerArray){
-        return evolvingAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
+      // Show current state of answerArray
+      var showPlayerProgress = function(currentAnswerArray){
+        return currentAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
-      // Game time! Code for actual game
-      var getGuess = function(counter, word, progress){
-        while (counter > 0){
-          alert(progress)
-          var guess = prompt("Guess a letter, or click cancel to stop playing") // take input from the player
-          if (guess === null){
-            alert("OK-Let's play next time!")
+      //*******************************************************************************************//
+      var matchLetter = function(word, arr, counter, guess){
+        for (var j=0; j<word.length; j++){
+          if (word[j] === guess.toString()){
+            arr[j] = guess;
+            counter--;
             break;
           }
-          else if (guess.length !== 1){
-            alert("Please guess only one letter at a time!")
-          }
           else {
-            for (var j=0; j<selectedWord.length; j++){
-              if (word[j] === guess){
-                answerArray[j] = guess;
-                counter--;  // When remainingLetters > 0, the game is finished
-                // initialLetterCounter = evolvingLetterCounter(letterCounter);  // When letterCounter < 0, the game is finished
-              }
-              else {
-                alert("Sorry, there's no \'" + guess + "\' in the word.")
-                break;
-              }
-            }
-          } // exit game
+            alert("The letter " + guess + " doesn't exist.")
+          }
         }
-        endOfGameMessage(word, counter)
       }
 
       // FUNCTION: alerts re status of the game after the game is over
       var quitGameAndShowAnswer = function(selectedWord){
         alert("The correct answer was " + selectedWord.formatStringNicely() + ". Better luck next time! :D");
       }
-
       var showAnswerAndCongratulatePlayer = function(selectedWord){
         alert("Good game! The answer was " + selectedWord.formatStringNicely() + ".")
       }
-
       var endOfGameMessage = function(selectedWord, remainingLettersCounter){
         if (remainingLettersCounter === 0){
           showAnswerAndCongratulatePlayer(selectedWord)
@@ -119,67 +94,49 @@
         }
       }
 
-      //**** BOOKMARK START: PROGRAM CODE **** //
-      greetPlayer(getName())
-      var selectedList = pickWordList(defaultListArray)
-      var selectedWord = pickWord(selectedList)
-      var answerArray = setupAnswerArray(selectedWord)
-      var letterCounter = initialLetterCounter(selectedWord)
-      var playerProgress = showPlayerProgress(answerArray)
-      getGuess(letterCounter, selectedWord, playerProgress)
-
-      /* The findCategory & announceWordSelected FUNCTIONS do not work!!!
-      Possibly requires changing how the array of words & defaultListArray is structured to a key:value pair */
-      // var nameOfSelectedList = findCategory(defaultListArray, selectedList)
-      // announceWordSelected(nameOfSelectedList, selectedWord)
-
-      console.log(selectedList, selectedWord, answerArray, letterCounter)
-      //**** BOOKMARK END:                **** //
-
-
-      // FUNCTION: Update the answerArray & decrement the counter
-      var updateGameState = function(){
+      // Game time! Code for actual game
+      var getGuess = function(word, answerArray, counter){
+        while (counter > 0) {
+          alert(showPlayerProgress(answerArray))
+          var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+          if (guess === 'quit'){
+            alert("OK-let's play next time!")
+            break;
+          }
+          else if (guess.length !== 1){
+            alert("Please guess only one letter at a time!")
+          }
+          else {
+              matchLetter(word, answerArray, counter, guess)
+          }
+        }
+        endOfGameMessage(word, counter)
       }
 
 
+      //**** START: CODE TO RUN GAME **** //
+      greetPlayer(getName())
+      var selectedList = pickWordList(defaultListArray)
+      console.log("Value of selectedList:" + selectedList)
 
+      var selectedWord = pickWord(selectedList)
+      console.log("Value of selectedWord:" + selectedWord)
+
+      var answerArray = setupAnswerArray(selectedWord)
+      console.log("Value of answerArray:" + answerArray)
+
+      var letterCounter = remainingLetters(selectedWord)
+      console.log("Value of letterCounter:" + letterCounter)
+
+      var playerProgress = showPlayerProgress(answerArray)
+
+      getGuess(selectedWord, answerArray, letterCounter)
+
+      // var nameOfSelectedList = findCategory(defaultListArray, selectedList)
+      // announceWordSelected(nameOfSelectedList, selectedWord)
+      // /* The findCategory & announceWordSelected FUNCTIONS do not work!!!
+      // Possibly requires changing how the array of words & defaultListArray is structured to a key:value pair */
 
     </script>
   </body>
 </html>
-
-<!-- FUNCTIONS TO WRITE
-pickWord - done
-setupAnswerArray - done
-showPlayerProgress -
-getGuess - done
-updateGameState
-showAnswerAndCongratulatePlayer - done
--->
-
-<!-- Iteration 1 - COMPLETED
-1. Pick a random word
-2. Take a player's guess
-3. Quit the game if the player wants to
-4. Check that the players guess is a valid letter
-5. Keep track of the letters the player has guessed
-6. Finish when the player has guessed the word
-* Steps 2-5 will repeat until the game is finished
--->
-
-<!-- Iteration 2
-1. Write a function to add new words to exisiting array
-2. Mitigate for user input (guess) if it's a capital letter
-3. Limit the number of guesses
-4. Track the letters that have been guessed.
-5. If same letter is guessed, alert player that that letter has already been guessed
-& prevent decrementation of remainingLettersCounter
--->
-
-<!-- Iteration 3
-1. Write a function to create a new array with new words
-2. Write a function to start drawing a hangman.
-  - counter to track the number of wrong guesses
-  - each increment on the counter starts the drawing of a new body part
-  - limit the number of wrong guesses and output a gameover message
--->
