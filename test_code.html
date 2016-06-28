@@ -31,32 +31,49 @@
         quitGameAndShowAnswer(answerKey(word))
       }
     }
-  var getGuess = function(remainingLetters, answerArray, selectedWord){
-    while (remainingLetters > 0) {
-      alert(answerArray.join(" "))  //show player their progress
-      var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
-      if (guess === 'quit' || guess === null){
-        alert("OK-let's play next time!")
-        break;
-      }
-      else if (guess === 'cheat'){
-        answerArray = ["m", "i", "l", "k"]
-        remainingLetters = 0
-      }
-      else if (guess.length !== 1){
-        alert("Please guess only one letter at a time!")
-      }
-      else {
-        for (var j=0; j<selectedWord.length; j++){
-          if (selectedWord[j] === guess){
-            answerArray[j] = guess;
-            remainingLetters--;  // When remainingLetters > 0, the game is finished.
+
+    // var matchLetter = function(word, arr, counter, guess){
+    //   for (var j=0; j<word.length; j++){
+    //     if (word[j] === guess.toString()){
+    //       arr[j] = guess;
+    //       counter--;
+    //       break;
+    //     }
+    //     else {
+    //       alert("The letter " + guess + " doesn't exist.")
+    //     }
+    //   }
+    // }
+
+    var getGuess = function(remainingLetters, answerArray, selectedWord){
+      while (remainingLetters > 0) {
+        alert(answerArray.join(" "))  //show player their progress
+        var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+        if (guess === 'quit' || guess === null){
+          alert("OK-let's play next time!")
+          break;
+        }
+        else if (guess === 'cheat'){
+          answerArray = ["m", "i", "l", "k"]
+          remainingLetters = 0
+        }
+        else if (guess.length !== 1){
+          alert("Please guess only one letter at a time!")
+        }
+        else {
+          // matchLetter(selectedWord, answerArray, remainingLetters, guess)
+          // break;
+          for (var j=0; j<selectedWord.length; j++){
+            if (selectedWord[j] === guess){
+              answerArray[j] = guess;
+              remainingLetters--;  // When remainingLetters > 0, the game is finished.
+            }
           }
         }
       }
+      endOfGameMessage(selectedWord, remainingLetters)  // *** outside of while loop
+      console.log(remainingLetters, answerArray, selectedWord)
     }
-    endOfGameMessage(selectedWord, remainingLetters)  // *** outside of while loop
-  }
 
 
   // TO RUN GAME:

@@ -30,8 +30,8 @@
       }
 
       // Setting up a counter to show remaining words
-      var remainingLetters = function(selectedWord){ //counter re # of words to be guessed
-        return selectedWord.length
+      var remainingLetters = function(pickedWord){ //counter re # of words to be guessed
+        return pickedWord.length
       }
 
       // Show current state of answerArray
@@ -40,33 +40,40 @@
       }
 
       //*******************************************************************************************//
-      var matchLetter = function(word, arr, counter, guess){
+      var matchLetter = function(word, arr, guess){
         for (var j=0; j<word.length; j++){
-          if (word[j] === guess.toString()){
+          var notFound = true;
+          if (word[j] === guess){
+            notFound = false;
             arr[j] = guess;
-            counter--;
+            letterCounter--;     // this does not work (why???)
             break;
           }
-          else {
-            alert("The letter " + guess + " doesn't exist.")
-          }
+        }
+        if (notFound) {
+          alert("The letter \'" + guess + "\' doesn't exist.")
         }
       }
 
       // Game time! Code for actual game
-      var getGuess = function(word, answerArray, counter){
-        while (counter > 0) {
+      var getGuess = function(word, answerArray){
+        while (letterCounter > 0) {
           alert(showPlayerProgress(answerArray))
           var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
           }
+          else if (guess === 'cheat'){
+            // answerArray = ["m", "i", "l", "k"]
+            letterCounter = 0
+            // console.log(answerArray)
+          }
           else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
           }
           else {
-              matchLetter(word, answerArray, counter, guess)
+            matchLetter(word, answerArray, guess)
           }
         }
       }
@@ -74,21 +81,19 @@
 
       //**** START: PROGRAM CODE **** //
       var selectedList = pickWordList(defaultListArray)
-      console.log("Value of selectedList:" + selectedList)
+      console.log("Initial value of selectedList:" + selectedList)
       var selectedWord = pickWord(selectedList)
-      console.log("Value of selectedWord:" + selectedWord)
+      console.log("Initial value of selectedWord:" + selectedWord)
       var answerArray = setupAnswerArray(selectedWord)
-      console.log("Value of answerArray:" + answerArray)
+      console.log("Initial value of answerArray:" + answerArray)
       var letterCounter = remainingLetters(selectedWord)
-      console.log("Value of letterCounter:" + letterCounter)
+      console.log("Initial value of letterCounter:" + letterCounter)
 
       getGuess(selectedWord, answerArray, letterCounter)
-      //issue 1: not updating counter
-      //issue 2: won't allow else statetment
 
-      console.log("Value of answerArray:" + answerArray)
-      console.log("Value of letterCounter:" + letterCounter)
-      console.log("Value of PlayerProgress:" + showPlayerProgress(answerArray))
+      console.log("answerArray after getGuess():" + answerArray)
+      console.log("letterCounter after getGuess():" + letterCounter)
+      console.log("PlayerProgress after getGuess():" + showPlayerProgress(answerArray))
 
     </script>
   </body>
