@@ -39,12 +39,13 @@
         return currentAnswerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
-      //**********************************************************************************************//
+      //*******************************************************************************************//
       var matchLetter = function(werd, arr, count, guesss){
         for (var j=0; j<werd.length; j++){
           if (werd[j] === guesss.toString()){
             arr[j] = guesss;
             count--;
+            break;
           }
           else {
             alert("The letter " + guesss + " doesn't exist.")
