@@ -15,28 +15,33 @@
     var answerArray = ["_", "_", "_", "_"]
 
     // FUNCTION: alerts re status of the game after the game is over
-    var quitGameAndShowAnswer = function(word){
-      alert("The correct answer was " + word + ". Better luck next time! :D");
+    var answerKey = function(word){
+      return "The answer was \'" + word + "\'."
     }
-
-    var showAnswerAndCongratulatePlayer = function(word){
-      alert("Good game! The answer was " + word + ".")
+    var quitGameAndShowAnswer = function(revealedanswerKey){
+      alert(revealedanswerKey + " Better luck next time! :D");
     }
-
+    var showAnswerAndCongratulatePlayer = function(revealedanswerKey){
+      alert("Good game! " + revealedanswerKey)
+    }
     var endOfGameMessage = function(word, counter){
       if (counter === 0){
-        showAnswerAndCongratulatePlayer(word)
+        showAnswerAndCongratulatePlayer(answerKey(word))
       } else {
-        quitGameAndShowAnswer(word)
+        quitGameAndShowAnswer(answerKey(word))
       }
     }
-
+  var getGuess = function(remainingLetters, answerArray, selectedWord){
     while (remainingLetters > 0) {
       alert(answerArray.join(" "))  //show player their progress
-      var guess = prompt("Guess a letter, or click cancel to stop playing") // take input from the player
-      if (guess === null){
+      var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
+      if (guess === 'quit' || guess === null){
         alert("OK-let's play next time!")
         break;
+      }
+      else if (guess === 'cheat'){
+        answerArray = ["m", "i", "l", "k"]
+        remainingLetters = 0
       }
       else if (guess.length !== 1){
         alert("Please guess only one letter at a time!")
@@ -51,7 +56,11 @@
       }
     }
     endOfGameMessage(selectedWord, remainingLetters)  // *** outside of while loop
-    console.log (answerArray, remainingLetters, selectedWord)
+  }
+
+
+  // TO RUN GAME:
+  getGuess(remainingLetters, answerArray, selectedWord)
 
     </script>
   </body>

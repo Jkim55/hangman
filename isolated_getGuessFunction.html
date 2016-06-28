@@ -58,7 +58,7 @@
         while (counter > 0) {
           alert(showPlayerProgress(answerArray))
           var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
-          if (guess === 'quit'){
+          if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
           }

@@ -80,17 +80,20 @@
       }
 
       // FUNCTION: alerts re status of the game after the game is over
-      var quitGameAndShowAnswer = function(selectedWord){
-        alert("The correct answer was " + selectedWord.formatStringNicely() + ". Better luck next time! :D");
+      var answerKey = function(word){
+        return "The answer was \'" + word + "\'."
       }
-      var showAnswerAndCongratulatePlayer = function(selectedWord){
-        alert("Good game! The answer was " + selectedWord.formatStringNicely() + ".")
+      var quitGameAndShowAnswer = function(revealedanswerKey){
+        alert(revealedanswerKey + " Better luck next time! :D");
+      }
+      var showAnswerAndCongratulatePlayer = function(revealedanswerKey){
+        alert("Good game! " + revealedanswerKey)
       }
       var endOfGameMessage = function(selectedWord, remainingLettersCounter){
         if (remainingLettersCounter === 0){
-          showAnswerAndCongratulatePlayer(selectedWord)
+          showAnswerAndCongratulatePlayer(answerKey(selectedWord))
         } else {
-          quitGameAndShowAnswer(selectedWord)
+          quitGameAndShowAnswer(answerKey(selectedWord))
         }
       }
 
@@ -99,7 +102,7 @@
         while (counter > 0) {
           alert(showPlayerProgress(answerArray))
           var guess = prompt("Guess a letter or type 'quit' to stop playing") // take input from the player
-          if (guess === 'quit'){
+          if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
           }
@@ -124,7 +127,6 @@
 
       var answerArray = setupAnswerArray(selectedWord)
       console.log("Value of answerArray:" + answerArray)
-
       var letterCounter = remainingLetters(selectedWord)
       console.log("Value of letterCounter:" + letterCounter)
 
@@ -140,3 +142,9 @@
     </script>
   </body>
 </html>
+
+<!--
+ISSUE 1: answerArray does not update
+ISSUE 2: not updating letterCounter
+ISSUE 3: won't allow else statetment within matchWord... spits out alert from else statement a number of times
+-->
