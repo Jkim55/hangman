@@ -12,11 +12,11 @@
       }
 
       // Get the name of a player, format that name, and greet the player
-      var getName = function(){
+      function getName(){
         var name = prompt("What's your name?")
         return name.formatStringNicely()
       }
-      var greetPlayer = function(playerName){
+      function greetPlayer(playerName){
         alert("Hi, " + playerName + "! How about a game of Hangman?")
       }
 
@@ -28,10 +28,10 @@
       var defaultListArray = [capitals, morningDrinks, aromatherapyScents]
 
 
-      var pickWordList = function(listArray){
+      function pickWordList(listArray){
         return listArray[Math.floor(Math.random()* listArray.length)]
       }
-      var pickWord = function (wordList){
+      function pickWord(wordList){
         return wordList[Math.floor(Math.random()* wordList.length)]
       }
 
@@ -49,7 +49,7 @@
       }*/
 
       // Translate the selectedWord into blanks
-      var setupAnswerArray = function(){
+      function setupAnswerArray(){
         var answerArr = []
         for (var i=0; i<selectedWord.length; i++){
           answerArr[i] = "_"
@@ -58,17 +58,17 @@
       }
 
       // Setting up a counter to show remaining letters within word
-      var remainingLetters = function(){ //counter re # of words to be guessed
+      function remainingLetters(){ //counter re # of words to be guessed
         return selectedWord.length
       }
 
       // Show current state of answerArray
-      var showPlayerProgress = function(){
+      function showPlayerProgress(){
         return answerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
       //FUNCTION: iterates thru each letter of the selectedWord to see if guessed letter === selectedWord[i]
-      var matchLetter = function(guess){
+      function matchLetter(guess){
         for (var j=0; j<selectedWord.length; j++){
           var notFound = true;
           if (selectedWord[j] === guess){
@@ -84,16 +84,16 @@
       }
 
       // FUNCTION: alerts re status of the game after the game is over
-      var answerKey = function(word){
+      function answerKey(word){
         return "The answer was \'" + word + "\'."
       }
-      var quitGameAndShowAnswer = function(revealedanswerKey){
+      function quitGameAndShowAnswer(revealedanswerKey){
         alert(revealedanswerKey + " Better luck next time! :D");
       }
-      var showAnswerAndCongratulatePlayer = function(revealedanswerKey){
+      function showAnswerAndCongratulatePlayer(revealedanswerKey){
         alert("Good game! " + revealedanswerKey)
       }
-      var endOfGameMessage = function(selectedWord, remainingLettersCounter){
+      function endOfGameMessage(selectedWord, remainingLettersCounter){
         if (remainingLettersCounter === 0){
           showAnswerAndCongratulatePlayer(answerKey(selectedWord))
         } else {
@@ -102,7 +102,7 @@
       }
 
       // Game time! Code for actual game
-      var getGuess = function(){
+      function getGuess(){
         while (letterCounter > 0) {
           alert(showPlayerProgress(answerArray))
           var guess = prompt("Guess a letter or type 'quit' to stop playing")
@@ -122,6 +122,8 @@
           }
         }
       }
+
+// updateGameState ( )
 
       //**** START: PROGRAM CODE **** //
       greetPlayer(getName())
