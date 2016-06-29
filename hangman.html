@@ -6,12 +6,13 @@
   </head>
   <body>
     <script>
+
       // FUNCTION: add the formatStringNicely function to String.prototype
       String.prototype.formatStringNicely = function() {
         return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
       }
 
-      // Get the name of a player, format that name, and greet the player
+      // FUNCTION: Get the name of a player, format that name, and greet the player
       function getName(){
         var name = prompt("What's your name?")
         return name.formatStringNicely()
@@ -20,7 +21,7 @@
         alert("Hi, " + playerName + "! How about a game of Hangman?")
       }
 
-      // Pick a word randomly from an array chosen at random
+      // FUNCTION: Pick a word randomly from an array chosen at random
       var capitals = ["ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
       var morningDrinks = ["coffee", "tea", "water", "oj", "milk", "smoothie", "espresso"]
       var aromatherapyScents =["huckleberry", "rose", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
@@ -48,7 +49,7 @@
         alert("A random word has been selected from the category " + category + " and it consists of " + word.length + " letters")
       }*/
 
-      // Translate the selectedWord into blanks
+      // FUNCTION: Translate the selectedWord into blanks
       function setupAnswerArray(){
         var answerArr = []
         for (var i=0; i<selectedWord.length; i++){
@@ -57,12 +58,12 @@
         return answerArr
       }
 
-      // Setting up a counter to show remaining letters within word
+      // FUNCTION: Setting up a counter to show remaining letters within word
       function remainingLetters(){ //counter re # of words to be guessed
         return selectedWord.length
       }
 
-      // Show current state of answerArray
+      // FUNCTION: Show current state of answerArray
       function showPlayerProgress(){
         return answerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
@@ -83,23 +84,11 @@
         }
       }
 
-      // FUNCTION: alerts re status of the game after the game is over
-      function answerKey(word){
-        return "The answer was \'" + word + "\'."
+//******************************************************//
+      function updateGameState(){
+
       }
-      function quitGameAndShowAnswer(revealedanswerKey){
-        alert(revealedanswerKey + " Better luck next time! :D");
-      }
-      function showAnswerAndCongratulatePlayer(revealedanswerKey){
-        alert("Good game! " + revealedanswerKey)
-      }
-      function endOfGameMessage(selectedWord, remainingLettersCounter){
-        if (remainingLettersCounter === 0){
-          showAnswerAndCongratulatePlayer(answerKey(selectedWord))
-        } else {
-          quitGameAndShowAnswer(answerKey(selectedWord))
-        }
-      }
+//******************************************************//
 
       // Game time! Code for actual game
       function getGuess(){
@@ -123,7 +112,23 @@
         }
       }
 
-// updateGameState ( )
+      // FUNCTION: alerts re status of the game after the game is over
+      function answerKey(word){
+        return "The answer was \'" + word + "\'."
+      }
+      function quitGameAndShowAnswer(revealedanswerKey){
+        alert(revealedanswerKey + " Better luck next time! :D");
+      }
+      function showAnswerAndCongratulatePlayer(revealedanswerKey){
+        alert("Good game! " + revealedanswerKey)
+      }
+      function endOfGameMessage(selectedWord, remainingLettersCounter){
+        if (remainingLettersCounter === 0){
+          showAnswerAndCongratulatePlayer(answerKey(selectedWord))
+        } else {
+          quitGameAndShowAnswer(answerKey(selectedWord))
+        }
+      }
 
       //**** START: PROGRAM CODE **** //
       greetPlayer(getName())
@@ -131,18 +136,12 @@
       var selectedWord = pickWord(selectedList)
       var answerArray = setupAnswerArray(selectedWord)
       var letterCounter = remainingLetters()
-      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
+      console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
 
       getGuess()
-      console.log("Value prior to getGuess: " + selectedList, selectedWord, answerArray, letterCounter)
+      console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
       //**** END: PROGRAM CODE   **** //
 
     </script>
   </body>
 </html>
-
-<!--
-ISSUE 1: answerArray does not update
-ISSUE 2: not updating letterCounter
-ISSUE 3: won't allow else statetment within matchWord... spits out alert from else statement a number of times
--->
