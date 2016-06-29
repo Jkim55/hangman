@@ -86,14 +86,15 @@
 
 //******************************************************//
       function updateGameState(){
-
+        alert(showPlayerProgress(answerArray))
+        alert(letterCounter)
       }
 //******************************************************//
 
       // Game time! Code for actual game
       function getGuess(){
         while (letterCounter > 0) {
-          alert(showPlayerProgress(answerArray))
+          updateGameState()
           var guess = prompt("Guess a letter or type 'quit' to stop playing")
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
@@ -110,20 +111,21 @@
             matchLetter(guess)
           }
         }
+        endOfGameMessage()
       }
 
       // FUNCTION: alerts re status of the game after the game is over
-      function answerKey(word){
-        return "The answer was \'" + word + "\'."
+      function answerKey(){
+        return "The answer was \'" + selectedWord + "\'."
       }
-      function quitGameAndShowAnswer(revealedanswerKey){
-        alert(revealedanswerKey + " Better luck next time! :D");
+      function quitGameAndShowAnswer(revealanswerKey){
+        alert(revealanswerKey + " Better luck next time! :D");
       }
-      function showAnswerAndCongratulatePlayer(revealedanswerKey){
-        alert("Good game! " + revealedanswerKey)
+      function showAnswerAndCongratulatePlayer(revealanswerKey){
+        alert("Good game! " + revealanswerKey)
       }
-      function endOfGameMessage(selectedWord, remainingLettersCounter){
-        if (remainingLettersCounter === 0){
+      function endOfGameMessage(){
+        if (letterCounter === 0){
           showAnswerAndCongratulatePlayer(answerKey(selectedWord))
         } else {
           quitGameAndShowAnswer(answerKey(selectedWord))
@@ -140,6 +142,7 @@
 
       getGuess()
       console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
+
       //**** END: PROGRAM CODE   **** //
 
     </script>
