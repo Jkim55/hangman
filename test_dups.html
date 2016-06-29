@@ -96,10 +96,11 @@
         for (var j=0; j<count; j++){
           if (selectedWord[j] === guess){
             notFound = false;
-            // check if dups exist
+            // Write a FUNCTION to iterate thru the entire word & return an array of all the occurances (single or multiple) of word
+            // Iterate thru that array, for each element within that array:
+            //                            (1) answerArray[occurance] = guess (2) decrement letterCounter
             answerArray[j] = guess;
             letterCounter--;
-            //check rest of the word after first occurence is located
             break;
           }
           else{
