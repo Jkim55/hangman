@@ -11,6 +11,20 @@
         return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
       }
 
+      // FUNCTION: Get the name of a player, format that name, and greet the player
+      function greetPlayer(playerName){
+        alert("Hi there, " + playerName + "!\n\nWould you like to play a game of Hangman?\n\n" + announceWordSelected(findCategory()))
+      }
+
+      function getName(){
+        var name = prompt("Hi! What's your name?")
+        if (name === ""){
+          return "friend"
+        } else {
+          return name.formatStringNicely()
+        }
+      }
+
       // FUNCTION: Pick a word randomly from an array chosen at random
       var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
       var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
@@ -25,6 +39,10 @@
       }
 
       // FUNCTION: inform player that word has been chosen and what the category is
+      function announceWordSelected(category){
+        return "A random word containing " + selectedWord.length + " letters has been selected from the category " + category + "."
+      }
+
       function findCategory(){
         if (selectedList[0] === "rome"){
           return "CAPITALS";
@@ -33,24 +51,6 @@
         } else {
           "AROMATHERAPY SCENTS"
         }
-      }
-
-      function announceWordSelected(category){
-        return "A random word containing " + selectedWord.length + " letters has been selected from the category " + category + "."
-      }
-
-      // FUNCTION: Get the name of a player, format that name, and greet the player
-      function getName(){
-        var name = prompt("Hi! What's your name?")
-        if (name === ""){
-          return "friend"
-        } else {
-          return name.formatStringNicely()
-        }
-      }
-
-      function greetPlayer(playerName){
-        alert("Hi there, " + playerName + "!\n\nWould you like to play a game of Hangman?\n\n" + announceWordSelected(findCategory()))
       }
 
       // FUNCTION: Translate the selectedWord into blanks
@@ -80,7 +80,7 @@
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
-          } else if (guess === 'cheat'){
+          } else if (guess === '..'){
             alert (selectedWord.split(""))
           } else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
@@ -89,11 +89,6 @@
           }
         }
         endOfGameMessage()
-      }
-
-      // FUNCTION: alert player of current game state
-      function updateGameState(){
-        alert("Here's the current board: " + showPlayerProgress(answerArray)+ " You have " + letterCounter + " to go!")
       }
 
       //FUNCTION: iterates thru each letter of the selectedWord to see if guessed letter === selectedWord[i]
@@ -105,16 +100,27 @@
             notFound = false;
             answerArray[j] = guess;
             letterCounter--;
-          } else{
-            notFound = true
           }
         }
         if (notFound) {
           alert("The letter \'" + guess + "\' doesn't exist.")
         }
-      }  // Can this be written more elegantly?
+      }
+
+      // FUNCTION: alert player of current game state
+      function updateGameState(){
+        alert("Here's the current board: " + showPlayerProgress(answerArray)+ " You have " + letterCounter + " to go!")
+      }
 
       // FUNCTION: alerts re status of the game after the game is over
+      function endOfGameMessage(){
+        if (letterCounter === 0){
+          showAnswerAndCongratulatePlayer(answerKey(selectedWord))
+        } else {
+          quitGameAndShowAnswer(answerKey(selectedWord))
+        }
+      }
+
       function answerKey(){
         return "The answer was \'" + selectedWord + "\'."
       }
@@ -124,20 +130,12 @@
       function showAnswerAndCongratulatePlayer(revealanswerKey){
         alert("Good game! " + revealanswerKey)
       }
-      function endOfGameMessage(){
-        if (letterCounter === 0){
-          showAnswerAndCongratulatePlayer(answerKey(selectedWord))
-        } else {
-          quitGameAndShowAnswer(answerKey(selectedWord))
-        }
-      }
 
       //**** START: PROGRAM CODE **** //
       var selectedList = pickWordList(defaultListArray)
       var selectedWord = pickWord(selectedList)
       var answerArray = setupAnswerArray(selectedWord)
       var letterCounter = remainingLetters()
-      //Global variables vs passing in
 
       greetPlayer(getName())
       console.log("Value prior to getGuess(): " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)

@@ -6,19 +6,18 @@
   </head>
   <body>
     <script>
-      // FUNCTION: find index #'s of duplicates
-      Array.prototype.getDuplicates = function () {
-        var duplicates = {};
-        for (var i = 0; i < this.length; i++) {
-            if(duplicates.hasOwnProperty(this[i])) {
-              debugger;
-                duplicates[this[i]].push(i);
-            } else if (this.lastIndexOf(this[i]) !== i) {
-                duplicates[this[i]] = [i];
-            }
-        }
-        return duplicates;
-      };
+      // FUNCTION: adding an fuction to find index #'s of duplicates to Array.prototype
+      // Array.prototype.getDuplicates = function () {
+      //   var duplicates = {};
+      //   for (var i = 0; i < this.length; i++) {
+      //       if(duplicates.hasOwnProperty(this[i])) {
+      //           duplicates[this[i]].push(i);
+      //       } else if (this.lastIndexOf(this[i]) !== i) {
+      //           duplicates[this[i]] = [i];
+      //       }
+      //   }
+      //   return duplicates;
+      // };
 
       // FUNCTION: add the formatStringNicely function to String.prototype
       String.prototype.formatStringNicely = function() {
@@ -29,7 +28,7 @@
       function getName(){
         var name = prompt("Enter your name")
         if (name === ""){
-          return "you"
+          return "friend"
         }
         else {
           // debugger
@@ -42,13 +41,14 @@
       }
 
       // FUNCTION: Pick a word randomly from an array chosen at random
-      // var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
-      // var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
-      // var aromatherapyScents =["rose", "huckleberry", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+      var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
+      var aromatherapyScents =["rose", "huckleberry", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
 
-      // var defaultListArray = [capitals, morningBeverages, aromatherapyScents]
-      var test = ["apple", "scoopers"]
-      var defaultListArray = [test]
+      var defaultListArray = [capitals, morningBeverages, aromatherapyScents]
+
+      // var test = ["apple", "scoopers"]
+      // var defaultListArray = [test]
 
       function pickWordList(listArray){
         return listArray[Math.floor(Math.random()* listArray.length)]
@@ -184,7 +184,6 @@
 
       getGuess()
       console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
-
       //**** END: PROGRAM CODE   **** //
 
     </script>
