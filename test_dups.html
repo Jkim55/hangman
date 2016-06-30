@@ -11,6 +11,7 @@
         var duplicates = {};
         for (var i = 0; i < this.length; i++) {
             if(duplicates.hasOwnProperty(this[i])) {
+              debugger;
                 duplicates[this[i]].push(i);
             } else if (this.lastIndexOf(this[i]) !== i) {
                 duplicates[this[i]] = [i];
@@ -31,6 +32,7 @@
           return "you"
         }
         else {
+          // debugger
           return name.formatStringNicely()
         }
       }
@@ -40,12 +42,13 @@
       }
 
       // FUNCTION: Pick a word randomly from an array chosen at random
-      var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
-      var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
-      var aromatherapyScents =["rose", "huckleberry", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
+      // var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
+      // var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
+      // var aromatherapyScents =["rose", "huckleberry", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
 
-      var defaultListArray = [capitals, morningBeverages, aromatherapyScents]
-
+      // var defaultListArray = [capitals, morningBeverages, aromatherapyScents]
+      var test = ["apple", "scoopers"]
+      var defaultListArray = [test]
 
       function pickWordList(listArray){
         return listArray[Math.floor(Math.random()* listArray.length)]
@@ -88,23 +91,36 @@
         return answerArray.join(" ")  //show player their progress by printing out current state of answerArray
       }
 
+      // FUNCTION: Iterate thru the entire word & return an array of all the occurances (single or multiple) of letter
+      // Iterate thru that array, for each element within that array:
+      //                            (1) answerArray[occurance] = guess (2) decrement letterCounter
+// ***---------------------------------------**----------------------------------------***
+//       selectedWord = 'apple'
+//       answerArray = ["-", "-", "-", "-", "-"]
+//       guess = 'p'
+//       letterCounter = 5
+//
+//       function replaceAllGuessMatches(guess)
+//         iterate thru selectedWord & return index where guess exists
+//         ==> indexarr = [1, 2]
+//
+//         iterate thru indexarr and replace "-" with guess & decrement counter
+//         ==> answerArray = ["-", "p", "_", "-", "-"]
+//               letterCounter = 4
+//         ==> answerArray = ["-", "p", "p", "-", "-"]
+//               letterCounter = 3
+// ***---------------------------------------**----------------------------------------***
+
+
       //FUNCTION: iterates thru each letter of the selectedWord to see if guessed letter === selectedWord[i]
       function matchLetter(guess){
         var notFound = true;
         var count = selectedWord.length
-        // var dups = selectedWord.getDuplicates()
         for (var j=0; j<count; j++){
           if (selectedWord[j] === guess){
             notFound = false;
-            // Write a FUNCTION to iterate thru the entire word & return an array of all the occurances (single or multiple) of word
-            // Iterate thru that array, for each element within that array:
-            //                            (1) answerArray[occurance] = guess (2) decrement letterCounter
-            answerArray[j] = guess;
-            letterCounter--;
-            break;
-          }
-          else{
-            notFound = true
+            answerArray[j] = guess
+            letterCounter--
           }
         }
         if (notFound) {

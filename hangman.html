@@ -6,7 +6,6 @@
   </head>
   <body>
     <script>
-
       // FUNCTION: add the formatStringNicely function to String.prototype
       String.prototype.formatStringNicely = function() {
         return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase() // this.charAt() is faster than this[0]
@@ -16,7 +15,6 @@
       var capitals = ["rome", "seoul", "ankara", "paris", "athens", "london", "jakarta", "berlin", "helsinki", "stockholm"]
       var morningBeverages = ["tea", "coffee", "water", "oj", "milk", "smoothie", "espresso"]
       var aromatherapyScents =["rose", "huckleberry", "jasmine", "bergamont", "vanilla", "lavender", "hyssop", "orange"]
-
       var defaultListArray = [capitals, morningBeverages, aromatherapyScents]
 
       function pickWordList(listArray){
@@ -28,28 +26,25 @@
 
       // FUNCTION: inform player that word has been chosen and what the category is
       function findCategory(){
-        debugger
-        for (var i=0;i>1; i++){
-          switch(true){
-            case (selectedList[i] === "rome"): return "CAPITALS"; break;
-            case (selectedList[i] === "tea"): return "MORNING BEVERAGES"; break;
-            case (selectedList[i] === "rome"): return "AROMATHERAPY SCENTS"; break;
-          }
+        if (selectedList[0] === "rome"){
+          return "CAPITALS";
+        } else if (selectedList[0] === "tea") {
+          return "MORNING BEVERAGES"
+        } else {
+          "AROMATHERAPY SCENTS"
         }
       }
 
       function announceWordSelected(category){
-        alert("A random word containing " + selectedWord.length + " letters has been selected from the category " + category + ".")
+        return "A random word containing " + selectedWord.length + " letters has been selected from the category " + category + "."
       }
 
       // FUNCTION: Get the name of a player, format that name, and greet the player
       function getName(){
-        var name = prompt("Hi-what's your name?")
-        debugger
+        var name = prompt("Hi! What's your name?")
         if (name === ""){
           return "friend"
-        }
-        else {
+        } else {
           return name.formatStringNicely()
         }
       }
@@ -85,14 +80,11 @@
           if (guess === 'quit' || guess === null){
             alert("OK-let's play next time!")
             break;
-          }
-          else if (guess === 'cheat'){
+          } else if (guess === 'cheat'){
             alert (selectedWord.split(""))
-          }
-          else if (guess.length !== 1){
+          } else if (guess.length !== 1){
             alert("Please guess only one letter at a time!")
-          }
-          else {
+          } else {
             matchLetter(guess)
           }
         }
@@ -113,17 +105,14 @@
             notFound = false;
             answerArray[j] = guess;
             letterCounter--;
-            //check rest of the word after first occurence is located
-            break;
-          }
-          else{
+          } else{
             notFound = true
           }
         }
         if (notFound) {
           alert("The letter \'" + guess + "\' doesn't exist.")
         }
-      }
+      }  // Can this be written more elegantly?
 
       // FUNCTION: alerts re status of the game after the game is over
       function answerKey(){
@@ -148,13 +137,12 @@
       var selectedWord = pickWord(selectedList)
       var answerArray = setupAnswerArray(selectedWord)
       var letterCounter = remainingLetters()
+      //Global variables vs passing in
 
       greetPlayer(getName())
-      console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
-
+      console.log("Value prior to getGuess(): " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
       getGuess()
-      console.log("Value prior to getGuess: " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
-
+      console.log("Value prior to getGuess(): " + selectedList + ", " + selectedWord + ", " + answerArray + ", " + letterCounter)
       //**** END: PROGRAM CODE   **** //
 
     </script>
