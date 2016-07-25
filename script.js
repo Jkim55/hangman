@@ -1,7 +1,7 @@
 // FUNCTION: add the formatStringNicely function to String.prototype
 String.prototype.formatStringNicely = function() {
   return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase(); // this.charAt() is faster than this[0]
-}
+};
 
 // FUNCTION: Get the name of a player, format that name, and greet the player
 function greetPlayer(playerName){
@@ -34,6 +34,8 @@ function pickWord(wordList){
 function announceWordSelected(category){
   return "A random word containing " + selectedWord.length + " letters has been selected from the category " + category + ".";
 }
+
+//Use PickWordList result (variable selectedList) instead of the function below
 
 function findCategory(){
   if (selectedList[0] === "rome"){
