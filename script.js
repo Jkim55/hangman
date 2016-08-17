@@ -11,7 +11,7 @@ function greetPlayer(playerName){
 function getName(){
   var name = prompt("Hi! What's your name?");
   if (name === ""){
-    return "friend";
+    return "friend!";
   } else {
     return name.formatStringNicely();
   }
